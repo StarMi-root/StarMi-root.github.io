@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  // 使用相对路径，保证 dist/index.html 可直接双击打开（file:// 协议）
+  base: "./",
   plugins: [react(), tailwindcss()],
   server: {
     host: "0.0.0.0",

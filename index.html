@@ -3,68 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coder-app-name</title>
+    <title>蛙蛙新闻网 · FROG DAILY</title>
+    <meta name="description" content="呱得准，更要呱得真。蛙蛙新闻网——全塘最具影响力的两栖类媒体。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <style>
-      /* 内联样式确保主题色立即生效，避免闪烁 */
+      /* 主题底色立即生效，避免白闪 */
       html,
       body {
         margin: 0;
         padding: 0;
         width: 100%;
-        height: 100%;
+        min-height: 100%;
       }
-      html.light,
-      html.light body {
-        background-color: #ffffff !important;
-        color: #000000;
+      body {
+        background-color: #0b1f15;
+        color: #e9f2e4;
       }
-      html.dark,
-      html.dark body {
-        background-color: #1a1a1a !important;
-        color: #ffffff;
+      #boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: #0b1f15;
+        font-family: "ZCOOL QingKe HuangYou", "Noto Sans SC", sans-serif;
+        color: #8fd65a;
+        letter-spacing: 0.3em;
+      }
+      #boot-loader .boot-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #f5c842;
+        animation: boot-hop 0.8s ease-in-out infinite;
+      }
+      @keyframes boot-hop {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-14px); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot-loader .boot-dot { animation: none; }
       }
     </style>
     <script>
-      // 在 React 加载前立即设置主题，避免闪烁
+      // 主题类名兼容脚本（仅设置类名与 data-theme，不覆盖站点自身配色）
       (function () {
-        const isInIframe = window.self !== window.top;
-
+        var isInIframe = window.self !== window.top;
         function applyThemeToDOM(theme) {
           document.documentElement.classList.remove("light", "dark");
           document.documentElement.classList.add(theme);
           document.documentElement.setAttribute("data-theme", theme);
         }
-
         if (isInIframe) {
-          // 监听父窗口主动推送的主题消息
           window.addEventListener("message", function (event) {
             if (event.data && typeof event.data.theme === "string") {
-              const theme = event.data.theme;
+              var theme = event.data.theme;
               if (theme === "light" || theme === "dark") {
                 applyThemeToDOM(theme);
               }
             }
           });
-        } else {
-          // 非 iframe 环境，使用默认 light 主题
-          applyThemeToDOM("light");
         }
       })();
     </script>
-      <script>
+    <script>
       (function () {
         if (window.self === window.top) return;
         var reported = {};
         window.addEventListener("error", function (event) {
-          // 资源加载失败的 error 事件没有 message，此处仅上报 JS 运行时错误
           if (!event || !event.message) return;
           var key =
             event.message + "|" + (event.filename || "") + "|" + (event.lineno || 0);
-          if (reported[key]) return; // 相同错误只上报一次，避免渲染循环刷屏
+          if (reported[key]) return;
           reported[key] = true;
           try {
             window.parent.postMessage(
@@ -91,7 +109,12 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root">
+      <div id="boot-loader">
+        <span class="boot-dot"></span>
+        <span>蛙蛙新闻网加载中</span>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
