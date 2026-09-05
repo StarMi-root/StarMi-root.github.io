@@ -84,6 +84,8 @@ bash scripts/deploy-remote.sh root@服务器IP \
 - **SSH 连不上**：确认使用密钥登录（`ssh-copy-id root@IP`），或改用 `-p 端口`
   形式的自定义端口（可在脚本的 ssh 命令中追加 `-p 2222`）。
 - **端口被占用**：若 80 端口已被 Apache 等占用，先 `systemctl stop apache2 && systemctl disable apache2`。
+- **`vite: not found`**：项目依赖未安装。脚本已支持自动执行 `npm install`；
+  也可手动在项目根目录运行 `npm install` 后重试。Node 版本需 ≥ 18。
 
 ## 更新站点
 

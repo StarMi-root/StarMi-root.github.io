@@ -49,6 +49,11 @@ if [[ "$SKIP_BUILD" == true ]]; then
   warn "跳过构建，使用现有 dist/"
 else
   command -v npm >/dev/null || die "未找到 npm，无法构建（可加 --skip-build 使用已有 dist）"
+  # 依赖未安装（vite 缺失）时自动补装
+  if [[ ! -x node_modules/.bin/vite ]]; then
+    warn "检测到构建依赖缺失（vite 不存在），自动执行 npm install …"
+    npm install || die "npm install 失败：请检查网络，或 Node 版本是否 ≥ 18（node -v 查看）"
+  fi
   log "正在构建项目 …"
   npm run build
 fi
