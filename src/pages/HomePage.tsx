@@ -3,6 +3,7 @@ import type { Article, ViewId } from "../data/articles";
 import { CATEGORIES, formatRead, todayCN, issueNo } from "../data/articles";
 import { ArticleCard, ArticleCover, CategoryTag } from "../components/ArticleBits";
 import { Reveal, useCountUp } from "../components/Reveal";
+import { useLiveElapsed } from "../components/LiveElapsed";
 import { IconClock, IconEye, IconArrow, IconFeather } from "../components/icons";
 
 const TAKES = [
@@ -30,7 +31,7 @@ const TAKES = [
 ];
 
 const BOARD = [
-  { value: 128630, suffix: "份", label: "今日发行" },
+  { value: 3, suffix: "份", label: "今日发行" },
   { value: 8402, suffix: "蛙", label: "在线读者" },
   { value: 214, suffix: "篇", label: "今日来稿" },
   { value: 98, suffix: "%", label: "塘域覆盖率" },
@@ -41,10 +42,28 @@ function Stat({ value, suffix, label }: { value: number; suffix: string; label: 
   return (
     <div className="text-center">
       <span ref={ref} className="font-display text-3xl sm:text-5xl text-gold tabular-nums leading-none inline-block">
-        {v.toLocaleString()}
+        {v}
       </span>
       <span className="font-display text-lg sm:text-2xl text-gold/70 ml-1">{suffix}</span>
       <p className="mt-2 text-[11px] tracking-[0.25em] text-mist/50">{label}</p>
+    </div>
+  );
+}
+
+/** 风雨无阻 · 自 2026.09.05 08:40 起的实时计时 */
+function LiveStat() {
+  const { days, hh, mm, ss } = useLiveElapsed();
+  return (
+    <div className="text-center">
+      <span className="inline-flex items-baseline justify-center gap-1.5">
+        <span className="w-2 h-2 rounded-full bg-coral blink-dot self-center shrink-0" aria-hidden="true" />
+        <span className="font-display text-3xl sm:text-5xl text-gold tabular-nums leading-none">{days}</span>
+        <span className="font-display text-lg sm:text-2xl text-gold/70">天</span>
+      </span>
+      <span className="block font-display text-lg sm:text-2xl text-gold tabular-nums tracking-[0.15em] mt-1">
+        {hh}:{mm}:{ss}
+      </span>
+      <p className="mt-2 text-[11px] tracking-[0.25em] text-mist/50">风雨无阻 · 实时</p>
     </div>
   );
 }
@@ -62,6 +81,9 @@ export default function HomePage({
   filter: string;
   onFilter: (c: string) => void;
 }) {
+  /** 新站实时运行时长（徽章用） */
+  const { days, hh, mm, ss } = useLiveElapsed();
+
   /** 头版头条固定取官方要闻第一篇；用户投稿进要闻区置顶 */
   const headline = useMemo(() => articles.find((a) => !a.userAdded) ?? articles[0], [articles]);
   const rest = useMemo(() => articles.filter((a) => a.id !== headline?.id), [articles, headline]);
@@ -99,13 +121,20 @@ export default function HomePage({
               </span>
             </h1>
 
-            {/* 十周年纪念章 */}
+            {/* 新站运行实时纪念章 */}
             <div
-              className="stamp-in absolute -top-2 right-0 sm:right-10 w-24 h-24 sm:w-28 sm:h-28 rounded-full border-[3px] border-coral/80 text-coral hidden md:flex flex-col items-center justify-center gap-1 bg-coral/5"
+              className="stamp-in absolute -top-2 right-0 sm:right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-full border-[3px] border-coral/80 text-coral hidden md:flex flex-col items-center justify-center gap-0.5 bg-coral/5"
               style={{ animationDelay: "700ms", opacity: 0 }}
             >
-              <span className="font-display text-base sm:text-lg leading-none">复刊十周年</span>
-              <span className="text-[9px] tracking-[0.3em]">2016–2026</span>
+              <span className="flex items-center gap-1.5 text-[9px] tracking-[0.3em] font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-coral blink-dot" aria-hidden="true" />
+                新站运行
+              </span>
+              <span className="font-display text-2xl sm:text-[26px] leading-none mt-1">{days} 天</span>
+              <span className="text-[12px] sm:text-[13px] tabular-nums tracking-wider text-gold">
+                {hh}:{mm}:{ss}
+              </span>
+              <span className="text-[8px] tracking-[0.18em] text-coral/70 mt-1">自 2026.09.05 08:40</span>
             </div>
 
             <p className="fade-up mt-6 max-w-xl text-[15px] leading-relaxed text-mist/65" style={{ animationDelay: "480ms" }}>
@@ -114,10 +143,10 @@ export default function HomePage({
             </p>
 
             <div className="fade-up mt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-lily/15 pt-7" style={{ animationDelay: "620ms" }}>
-              <Stat value={880000} suffix="份" label="累计发行" />
+              <Stat value={20210602} suffix="份" label="累计发行" />
               <Stat value={128} suffix="只" label="在职记者" />
               <Stat value={365} suffix="个" label="覆盖荷塘" />
-              <Stat value={10} suffix="年" label="风雨无阻" />
+              <LiveStat />
             </div>
           </div>
 

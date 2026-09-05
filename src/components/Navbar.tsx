@@ -4,7 +4,7 @@ import { FrogLogo, IconHome, IconInfo, IconQuill, IconChevron } from "./icons";
 
 const MENU: { id: ViewId; label: string; desc: string; Icon: typeof IconHome }[] = [
   { id: "home", label: "首页", desc: "今日头版与要闻", Icon: IconHome },
-  { id: "about", label: "报社详情", desc: "十年理想与团队", Icon: IconInfo },
+  { id: "about", label: "报社详情", desc: "创刊理想与团队", Icon: IconInfo },
   { id: "add", label: "报道添加", desc: "图文视频全媒投稿", Icon: IconQuill },
 ];
 

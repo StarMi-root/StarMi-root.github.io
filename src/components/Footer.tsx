@@ -43,7 +43,7 @@ export default function Footer({
             {(
               [
                 ["home", "首页 · 今日头版"],
-                ["about", "报社详情 · 十年理想"],
+                ["about", "报社详情 · 创刊理想"],
                 ["add", "报道添加 · 全媒投稿"],
               ] as [ViewId, string][]
             ).map(([v, label]) => (
@@ -92,7 +92,7 @@ export default function Footer({
 
       <div className="border-t border-lily/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-mist/35">
-          <p>© 2016–2026 蛙蛙新闻网 · 蛙ICP备20260001号 · 转载请注明出处并呱一声</p>
+          <p>© 2026 蛙蛙新闻网 · 蛙ICP备20260001号 · 转载请注明出处并呱一声</p>
           <p className="flex items-center gap-2">
             本报用纸均为再生荷叶
             <span className="font-display text-lily/60 tracking-widest">呱 ◈ 呱 ◈ 呱</span>
