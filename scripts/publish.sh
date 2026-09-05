@@ -38,7 +38,8 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 PORT="${PORT:-8765}"
 LOG="$(mktemp /tmp/frognews-tunnel-XXXX.log)"
-QR_PNG="$(mktemp /tmp/frognews-qr-XXXX.png)"
+# 二维码图片固定存放在项目根目录，方便随时找到/放大/转发
+QR_PNG="$PROJECT_ROOT/frognews-qrcode.png"
 TUNNEL_PID=""; SERVER_PID=""
 
 cleanup() {
@@ -47,6 +48,7 @@ cleanup() {
   [[ -n "$TUNNEL_PID" ]] && kill "$TUNNEL_PID" 2>/dev/null || true
   [[ -n "$SERVER_PID" ]] && kill "$SERVER_PID" 2>/dev/null || true
   rm -f "$LOG"
+  # 注意：二维码图片 frognews-qrcode.png 保留在项目根目录，不删除
 }
 trap cleanup INT TERM EXIT
 
@@ -169,12 +171,23 @@ echo -e "${C_BOLD}━━━━━━━━━━━━━━━━━━━━�
 
 if command -v qrencode >/dev/null 2>&1; then
   echo
-  echo -e "${C_BOLD}终端二维码（深色终端直接扫；扫不动就看自动弹出的图片）：${C_RESET}"
-  qrencode -t UTF8i -m 1 "$PUBLIC_URL" || true
-  qrencode -t PNG -s 14 -m 3 -o "$QR_PNG" "$PUBLIC_URL" 2>/dev/null \
-    && { echo -e "${C_GOLD}[提示]${C_RESET} 已生成大尺寸二维码图片：$QR_PNG";
-         command -v xdg-open >/dev/null 2>&1 && xdg-open "$QR_PNG" >/dev/null 2>&1 & } \
-    || true
+  echo -e "${C_GOLD}${C_BOLD}  ▼▼ 微信扫码区：打开微信「扫一扫」，对准下方任意一个二维码 ▼▼${C_RESET}"
+  echo
+  echo -e "  ${C_BOLD}【① 终端里的二维码】（深色背景下直接扫）${C_RESET}"
+  echo -e "  ${C_BOLD}【② 图片二维码】（更清晰，已自动弹出，扫①不行就扫②）${C_RESET}"
+  echo
+  qrencode -t UTF8i -m 2 "$PUBLIC_URL" || true
+  echo
+  if qrencode -t PNG -s 16 -m 3 -o "$QR_PNG" "$PUBLIC_URL" 2>/dev/null; then
+    echo -e "${C_GREEN}[二维码]${C_RESET} 高清二维码图片已保存到项目根目录："
+    echo -e "         ${C_CYAN}${C_BOLD}$QR_PNG${C_RESET}"
+    echo -e "${C_GREEN}[二维码]${C_RESET} 已尝试自动打开该图片，如未弹出可手动双击上面这个文件"
+    command -v xdg-open >/dev/null 2>&1 && xdg-open "$QR_PNG" >/dev/null 2>&1 &
+  else
+    warn "图片二维码生成失败，请直接扫上方终端里的二维码"
+  fi
+else
+  warn "未安装 qrencode，无法显示二维码。请直接在另一台设备浏览器输入上方公网链接。"
 fi
 
 echo
