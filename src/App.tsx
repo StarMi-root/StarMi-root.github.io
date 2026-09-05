@@ -11,7 +11,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import AddPage from "./pages/AddPage";
 
-const LS_KEY = "frognews-articles-v1";
+const LS_KEY = "frognews-articles-v2";
 
 function loadArticles(): Article[] {
   try {
@@ -41,15 +41,21 @@ export default function App() {
   const [splash, setSplash] = useState(!reduced);
   const [leaving, setLeaving] = useState(false);
 
-  /* 开场：展示 → 幕布上拉 */
+  /* 开场：展示 → 幕布上拉（点击任意处可跳过） */
   useEffect(() => {
     if (!splash) return;
-    const t1 = setTimeout(() => setLeaving(true), 1900);
-    const t2 = setTimeout(() => setSplash(false), 2650);
+    const t1 = setTimeout(() => setLeaving(true), 1500);
+    const t2 = setTimeout(() => setSplash(false), 2250);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
     };
+  }, [splash]);
+
+  const skipSplash = useCallback(() => {
+    if (!splash) return;
+    setLeaving(true);
+    setTimeout(() => setSplash(false), 420);
   }, [splash]);
 
   /* 持久化文章 */
@@ -134,7 +140,8 @@ export default function App() {
       {/* 开场动画：蛙 Logo 弹入 + 水波涟漪 + 站名逐字，随后幕布上拉 */}
       {splash && (
         <div
-          className="fixed inset-0 z-[100] bg-pond flex flex-col items-center justify-center overflow-hidden"
+          onClick={skipSplash}
+          className="fixed inset-0 z-[100] bg-pond flex flex-col items-center justify-center overflow-hidden cursor-pointer"
           style={leaving ? { animation: "curtain 0.75s cubic-bezier(0.7, 0, 0.2, 1) forwards" } : undefined}
           aria-hidden="true"
         >
@@ -155,8 +162,11 @@ export default function App() {
                 </span>
               ))}
             </h1>
-            <p className="mt-4 text-[11px] tracking-[0.5em] text-lily/70 fade-up" style={{ animationDelay: "1350ms" }}>
+            <p className="mt-4 text-[11px] tracking-[0.5em] text-lily/70 fade-up" style={{ animationDelay: "1000ms" }}>
               呱得准 · 更要呱得真
+            </p>
+            <p className="absolute bottom-10 text-[11px] tracking-[0.35em] text-mist/35 fade-up" style={{ animationDelay: "1300ms" }}>
+              点击任意处跳过 ▸
             </p>
           </div>
         </div>

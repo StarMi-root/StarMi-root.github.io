@@ -1,5 +1,6 @@
 import { Reveal, useCountUp } from "../components/Reveal";
 import { FrogAvatar, type FrogAccessory } from "../components/icons";
+import { SafeImg } from "../components/ArticleBits";
 import { IMG } from "../data/articles";
 
 const TIMELINE = [
@@ -95,7 +96,7 @@ export default function AboutPage() {
         <div className="lg:col-span-5 fade-up" style={{ animationDelay: "300ms" }}>
           <div className="relative rounded-md overflow-hidden border-2 border-lily/30 hard-shadow">
             <div className="overflow-hidden">
-              <img src={IMG.newsroom} alt="蛙蛙新闻网编辑部" className="w-full aspect-[4/3.4] object-cover kenburns" />
+              <SafeImg src={IMG.newsroom} alt="蛙蛙新闻网编辑部" char="社" className="w-full aspect-[4/3.4] object-cover kenburns" />
             </div>
             <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-pond/90 to-transparent px-4 pb-3.5 pt-10">
               <p className="text-[11px] text-mist/70">◈ 清晨 05:50 的编辑部，开编会前的最后校对</p>

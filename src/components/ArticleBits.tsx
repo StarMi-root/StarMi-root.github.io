@@ -1,7 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Article } from "../data/articles";
 import { formatRead } from "../data/articles";
 import { IconClock, IconEye, IconClose, IconImage, IconFilm } from "./icons";
+
+/** 带失败兜底的图片：远程图加载失败时回退为荷叶纹样，避免永远转圈 */
+export function SafeImg({
+  src,
+  alt,
+  className = "",
+  char = "闻",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  char?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={`relative overflow-hidden bg-fern flex items-center justify-center ${className}`}>
+        <span className="font-display text-5xl text-lily/25 select-none">{char}</span>
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} className={className} />;
+}
 
 const CATEGORY_COLOR: Record<string, string> = {
   时政: "bg-coral/90 text-paper",
@@ -59,8 +82,13 @@ export function ArticleCover({
   if (article.cover) {
     return (
       <div className={`relative overflow-hidden bg-moss ${className}`}>
-        <img src={article.cover} alt={article.title} loading="lazy" className={`w-full h-full object-cover ${imgClass}`} />
-        <div className="absolute inset-0 bg-gradient-to-t from-pond/55 via-transparent to-transparent" />
+        <SafeImg
+          src={article.cover}
+          alt={article.title}
+          char={article.title.charAt(0)}
+          className={`w-full h-full object-cover ${imgClass}`}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-pond/55 via-transparent to-transparent pointer-events-none" />
       </div>
     );
   }
@@ -180,7 +208,7 @@ export function ArticleModal({ article, onClose }: { article: Article | null; on
 
           {article.cover && (
             <div className="mt-6 rounded-md overflow-hidden border border-lily/15">
-              <img src={article.cover} alt={article.title} className="w-full object-cover" />
+              <SafeImg src={article.cover} alt={article.title} char={article.title.charAt(0)} className="w-full object-cover min-h-24" />
             </div>
           )}
 
@@ -216,10 +244,11 @@ export function ArticleModal({ article, onClose }: { article: Article | null; on
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {article.images.map((img, i) => (
-                  <img
+                  <SafeImg
                     key={i}
                     src={img}
                     alt={`${article.title} 图 ${i + 1}`}
+                    char={article.title.charAt(0)}
                     className="w-full aspect-[4/3] object-cover rounded-md border border-lily/15 hover:border-lily/50 transition-colors"
                   />
                 ))}
