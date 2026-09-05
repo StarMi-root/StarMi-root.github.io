@@ -62,9 +62,26 @@ log "构建完成：dist/index.html（$(du -h dist/index.html | cut -f1)）"
 
 # ---------------- 2. 上传 ----------------
 REMOTE_TMP="/tmp/frognews-deploy-$$"
-log "上传站点与部署脚本到 $TARGET:$REMOTE_TMP …"
-ssh -o ConnectTimeout=10 "$TARGET" "mkdir -p $REMOTE_TMP" \
-  || die "无法 SSH 连接 $TARGET，请检查地址、端口与密钥配置"
+log "测试 SSH 连接 $TARGET …"
+SSH_ERR="$(ssh -o ConnectTimeout=10 "$TARGET" "true" 2>&1)" || {
+  {
+    echo -e "${C_RED}[错误]${C_RESET} 无法 SSH 连接 $TARGET"
+    [[ -n "$SSH_ERR" ]] && echo -e "${C_YELLOW}[SSH 反馈]${C_RESET} $SSH_ERR"
+    echo "排查清单："
+    echo "  1. 先手动测试：ssh $TARGET，看具体报错"
+    echo "  2. 目标机没装 SSH 服务（Ubuntu 桌面版默认不装）。"
+    echo "     到目标机上执行：sudo apt install -y openssh-server"
+    echo "                    sudo systemctl enable --now ssh"
+    echo "  3. Tailscale：两台机器都要在线。用 tailscale status 确认目标机是 online"
+    echo "  4. 提示 Host key verification failed：旧指纹变了。"
+    echo "     在本机执行：ssh-keygen -R 100.72.108.82"
+    echo "  5. 想用密码登录但脚本不弹密码框：先做一次 ssh-copy-id $TARGET"
+    echo "     （或手动 ssh 时输入一次密码）"
+  } >&2
+  exit 1
+}
+log "SSH 连接正常 ✓ 开始上传站点与部署脚本到 $TARGET:$REMOTE_TMP …"
+ssh "$TARGET" "mkdir -p $REMOTE_TMP" || die "远程创建临时目录失败"
 
 if command -v rsync >/dev/null 2>&1; then
   rsync -az --delete dist/ "$TARGET:$REMOTE_TMP/dist/"
