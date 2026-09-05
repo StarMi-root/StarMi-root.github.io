@@ -11,7 +11,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import AddPage from "./pages/AddPage";
 
-const LS_KEY = "frognews-articles-v3";
+const LS_KEY = "frognews-articles-v4";
 
 function loadArticles(): Article[] {
   try {
