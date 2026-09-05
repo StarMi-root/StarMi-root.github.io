@@ -80,7 +80,9 @@ export default function Footer({
             </li>
             <li className="flex items-center gap-2.5">
               <IconMail className="w-4 h-4 text-lily/70 shrink-0" />
-              editor@frognews.pond
+              <a href="mailto:wB251046886@163.com" className="hover:text-gold transition-colors break-all">
+                wB251046886@163.com
+              </a>
             </li>
             <li className="flex items-center gap-2.5">
               <IconWave className="w-4 h-4 text-lily/70 shrink-0" />

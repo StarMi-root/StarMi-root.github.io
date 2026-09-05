@@ -38,6 +38,7 @@ const TEAM: { name: string; role: string; quote: string; accessory: FrogAccessor
   { name: "蛙算盘", role: "财经主编", quote: "每只虫子都要算清楚。", accessory: "glasses" },
   { name: "蛙飞毛", role: "体育记者", quote: "追新闻和追蜻蜓一样快。", accessory: "scarf" },
   { name: "蛙呱呱", role: "气象主播", quote: "今晚的月亮，适合晾晒翅膀。", accessory: "headset" },
+  { name: "王博", role: "网页开发", quote: "页面打不开别光呱，来找我。", accessory: "glasses" },
 ];
 
 const VALUES = [
