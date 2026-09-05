@@ -44,6 +44,36 @@ sudo bash server-setup.sh ./dist --domain news.example.com --email you@example.c
 
 重复运行是**幂等**的：更新文章后再次执行同一条命令即可完成升级。
 
+## 关于「自动申请 HTTPS」
+
+HTTP 是明文传输（浏览器地址栏提示"不安全"）；HTTPS 在其上加了一层 TLS 加密，
+地址栏会出现 🔒 锁。HTTPS 需要证书，商业证书收费，而 **Let's Encrypt**
+是公益机构，证书**完全免费**（有效期 90 天，可自动续期）。
+
+「自动申请」= 脚本调用 **certbot** 自动完成四件事，无需手工操作：
+
+1. **域名验证**：Let's Encrypt 从公网访问你服务器 80 端口下的验证文件，
+   确认域名确实指向这台服务器；
+2. **签发下载**：验证通过后立即下载证书；
+3. **安装生效**：写入 Nginx 配置，HTTP 访问自动跳转到 HTTPS；
+4. **自动续期**：注册系统定时任务，到期前自动更新，一劳永逸。
+
+使用方法（前提见下表）：
+
+```bash
+bash scripts/deploy-remote.sh root@服务器IP \
+     --domain news.example.com --email you@example.com
+```
+
+| 前提 | 说明 | 验证方式 |
+|---|---|---|
+| 有域名 | Let's Encrypt 不签发纯 IP 证书 | —— |
+| 域名已解析 | DNS 管理里添加 A 记录指向服务器公网 IP | `ping 域名` 解析出服务器 IP |
+| 80 端口公网可达 | 云厂商控制台安全组须放行入方向 TCP 80（HTTPS 需 443）；未备案域名在国内云可能被拦 80 | 手机 4G 访问 `http://IP` 能打开 |
+
+没有域名可以完全不传 `--domain`，站点以 IP + HTTP 正常访问，功能不受影响。
+验证续期是否正常：`certbot renew --dry-run`。
+
 ## 常见问题
 
 - **公网打不开**：绝大多数情况是云服务商（阿里云 / 腾讯云 / AWS / Vultr…）
