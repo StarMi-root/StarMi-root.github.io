@@ -127,7 +127,7 @@ export default function AboutPage() {
       <section className="mt-16 sm:mt-20">
         <Reveal>
           <div className="bg-deep border-y-2 border-lily/20 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-5 gap-y-10 divide-x divide-lily/10">
-            <BigStat value={20210602} suffix="份" label="累计发行" />
+            <BigStat value={20120602} suffix="份" label="累计发行" />
             <BigStat value={3} suffix="份" label="今日发行" />
             <BigStat value={128} suffix="只" label="在职记者" />
             <BigStat value={365} suffix="个" label="覆盖荷塘" />

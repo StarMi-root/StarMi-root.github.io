@@ -143,7 +143,7 @@ export default function HomePage({
             </p>
 
             <div className="fade-up mt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-lily/15 pt-7" style={{ animationDelay: "620ms" }}>
-              <Stat value={20210602} suffix="份" label="累计发行" />
+              <Stat value={20120602} suffix="份" label="累计发行" />
               <Stat value={128} suffix="只" label="在职记者" />
               <Stat value={365} suffix="个" label="覆盖荷塘" />
               <LiveStat />
