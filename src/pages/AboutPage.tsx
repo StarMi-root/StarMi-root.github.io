@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Reveal, useCountUp } from "../components/Reveal";
 import { FrogAvatar, type FrogAccessory } from "../components/icons";
 import { SafeImg } from "../components/ArticleBits";
@@ -27,7 +28,7 @@ const TIMELINE = [
   {
     year: "2026",
     title: "新官网上线",
-    desc: "就是你现在看到的这个。支持图文视频全媒体投稿，每一片荷叶，都是一个头条。",
+    desc: "2026 年 9 月 5 日 08:40 正式开站，就是你现在看到的这个。支持图文视频全媒体投稿，每一片荷叶，都是一个头条。",
   },
 ];
 
@@ -55,6 +56,39 @@ function BigStat({ value, suffix, label }: { value: number; suffix: string; labe
       </span>
       <span className="font-display text-xl sm:text-2xl text-gold/70 ml-1">{suffix}</span>
       <p className="mt-2 text-xs sm:text-[13px] text-mist/55 tracking-widest">{label}</p>
+    </div>
+  );
+}
+
+/** 自 2026-09-05 08:40 起的实时运行时长 */
+const pad2 = (n: number) => String(n).padStart(2, "0");
+
+function LiveStat() {
+  const startAt = useMemo(() => new Date(2026, 8, 5, 8, 40, 0).getTime(), []);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const diff = Math.max(0, now - startAt);
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  return (
+    <div className="text-center px-2">
+      <span className="inline-flex items-baseline justify-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-coral blink-dot self-center shrink-0" aria-hidden="true" />
+        <span className="font-display text-4xl sm:text-6xl text-gold tabular-nums leading-none">{d}</span>
+        <span className="font-display text-xl sm:text-2xl text-gold/70">天</span>
+        <span className="font-display text-2xl sm:text-4xl text-gold tabular-nums leading-none tracking-wider">
+          {pad2(h)}:{pad2(m)}:{pad2(s)}
+        </span>
+      </span>
+      <p className="mt-2 text-xs sm:text-[13px] text-mist/55 tracking-widest">新站运行 · 自 2026.09.05 08:40</p>
     </div>
   );
 }
@@ -109,10 +143,10 @@ export default function AboutPage() {
       <section className="mt-16 sm:mt-20">
         <Reveal>
           <div className="bg-deep border-y-2 border-lily/20 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-4 gap-y-10 divide-x divide-lily/10">
-            <BigStat value={880000} suffix="份" label="累计发行" />
+            <BigStat value={8} suffix="份" label="累计发行" />
             <BigStat value={128} suffix="只" label="在职记者" />
             <BigStat value={365} suffix="个" label="覆盖荷塘" />
-            <BigStat value={10} suffix="年" label="风雨无阻" />
+            <LiveStat />
           </div>
         </Reveal>
       </section>
