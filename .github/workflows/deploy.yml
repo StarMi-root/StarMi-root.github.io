@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]  # 当推送到 main 分支时触发
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 步骤1:检出代码
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # 步骤2:设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      # 步骤3:安装依赖
+      - name: Install dependencies
+        run: npm install
+      
+      # 步骤4:构建项目
+      - name: Build
+        run: npm run build
+      
+      # 步骤5:部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist          # 指定 dist 目录
+          publish_branch: gh-pages     # 部署到 gh-pages 分支
+          force_orphan: true           # 保持 gh-pages 分支干净
