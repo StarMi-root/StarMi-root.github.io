@@ -32,18 +32,18 @@ const TIMELINE = [
 ];
 
 const TEAM: { name: string; role: string; quote: string; accessory: FrogAccessory }[] = [
-  { name: "蛙长老", role: "总编辑", quote: "蹲得深，才呱得真。", accessory: "glasses" },
-  { name: "蛙大嘴", role: "首席记者", quote: "没有我撬不开的蚌。", accessory: "hat" },
-  { name: "蛙小跳", role: "摄影记者", quote: "跳得高，看得远。", accessory: "mic" },
-  { name: "蛙算盘", role: "财经主编", quote: "每只虫子都要算清楚。", accessory: "glasses" },
-  { name: "蛙飞毛", role: "体育记者", quote: "追新闻和追蜻蜓一样快。", accessory: "scarf" },
+  { name: "鸭嘴蛙", role: "网页开发", quote: "页面打不开别光呱，来找我", accessory: "glasses" },
+  { name: "扬帆蛙", role: "人文记者", quote: "扬帆启呱，追逐新闻。", accessory: "hat" },
+  { name: "宝莲蛙", role: "总策划", quote: "蹲得深，才呱得真。", accessory: "mic" },
+  { name: "云母蛙", role: "主持人", quote: "我的报道顶呱呱。", accessory: "glasses" },
+  { name: "蛙大嘴", role: "首席记者", quote: "没有我撬不开的蚌。", accessory: "scarf" },
   { name: "蛙呱呱", role: "气象主播", quote: "今晚的月亮，适合晾晒翅膀。", accessory: "headset" },
-  { name: "王博", role: "网页开发", quote: "页面打不开别光呱，来找我。", accessory: "glasses" },
+  { name: "蛙小跳", role: "摄影记者", quote: "跳得高，看得远。", accessory: "glasses" },
 ];
 
 const VALUES = [
   { no: "01", title: "真实如蛙鸣", desc: "每一声呱都有据可查。我们不生产新闻，我们只是荷塘的扩音器。" },
-  { no: "02", title: "速度赛蝌蚪", desc: "从线索到见报，最快纪录是 47 秒——那是一条关于雨的新闻，因为雨正好落下来作证。" },
+  { no: "02", title: "速度赛蝌蚪", desc: "从线索到见报，最快纪录是 62 秒——那是一条关于雨的新闻，因为雨正好落下来作证。" },
   { no: "03", title: "深度比塘深", desc: "头版只有一片荷叶，但调查可以潜到塘底三米。浅水出不了好新闻。" },
 ];
 
@@ -130,7 +130,7 @@ export default function AboutPage() {
           <div className="bg-deep border-y-2 border-lily/20 py-10 sm:py-12 grid grid-cols-2 lg:grid-cols-5 gap-y-10 divide-x divide-lily/10">
             <BigStat value={20120602} suffix="份" label="累计发行" />
             <BigStat value={3} suffix="份" label="今日发行" />
-            <BigStat value={128} suffix="只" label="在职记者" />
+            <BigStat value={7} suffix="只" label="在职记者" />
             <BigStat value={365} suffix="个" label="覆盖荷塘" />
             <LiveStat />
           </div>
@@ -169,7 +169,7 @@ export default function AboutPage() {
             <p className="text-[11px] tracking-[0.35em] text-lily/70 font-medium">NEWSROOM CREW</p>
             <h2 className="font-display text-3xl sm:text-4xl text-mist mt-2">编辑团队</h2>
           </div>
-          <p className="text-xs text-mist/45 hidden sm:block">还有 122 只记者正在外勤 ↗</p>
+          <p className="text-xs text-mist/45 hidden sm:block">还有 0.5 只记者正在外勤 ↗</p>
         </Reveal>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {TEAM.map((m, i) => (

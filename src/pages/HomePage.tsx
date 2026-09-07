@@ -31,7 +31,7 @@ const TAKES = [
 ];
 
 const BOARD = [
-  { value: 3, suffix: "份", label: "今日发行" },
+  { value: 1, suffix: "份", label: "今日发行" },
   { value: 8402, suffix: "蛙", label: "在线读者" },
   { value: 214, suffix: "篇", label: "今日来稿" },
   { value: 98, suffix: "%", label: "塘域覆盖率" },
@@ -144,7 +144,7 @@ export default function HomePage({
 
             <div className="fade-up mt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-lily/15 pt-7" style={{ animationDelay: "620ms" }}>
               <Stat value={20120602} suffix="份" label="累计发行" />
-              <Stat value={128} suffix="只" label="在职记者" />
+              <Stat value={7} suffix="只" label="在职记者" />
               <Stat value={365} suffix="个" label="覆盖荷塘" />
               <LiveStat />
             </div>

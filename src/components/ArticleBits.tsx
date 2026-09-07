@@ -258,7 +258,7 @@ export function ArticleModal({ article, onClose }: { article: Article | null; on
 
           <div className="mt-8 pt-5 border-t border-lily/12 flex items-center justify-between text-[11px] text-mist/40">
             <span>© 蛙蛙新闻网 · 转载请先呱一声</span>
-            <span className="font-display text-lily/60 tracking-widest">呱 · END</span>
+            <span className="font-display text-lily/60 tracking-widest">望闻问切 · END</span>
           </div>
         </div>
       </div>

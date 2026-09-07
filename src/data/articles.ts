@@ -1,17 +1,17 @@
 export type ViewId = "home" | "about" | "add";
 
-/** 编辑部配图（远程插画） */
+/** 编辑部配图*/
 export const IMG = {
   council:
-    "https://image.qwenlm.ai/generated-images/bdc6c769-f426-4400-aee3-0a4a4e593a87/_result.png",
+    "pic/council.png",
   newsroom:
-    "https://image.qwenlm.ai/generated-images/39a68763-bf78-4d8c-bef3-0944be0a5e83/_result.png",
+    "pic/newsroom.png",
   cricket:
-    "https://image.qwenlm.ai/generated-images/eddff5cf-0d0c-4c90-aa71-d54684a397d4/_result.png",
+    "pic/cricket.png",
   tadpole:
-    "https://image.qwenlm.ai/generated-images/0044dddc-b316-4239-b190-0c45aae4080b/_result.png",
+    "pic/tadpole.png",
   drone:
-    "https://image.qwenlm.ai/generated-images/a4e6c6f8-2b02-4f0e-979f-edd745bdc91d/_result.png",
+    "pic/drone.png",
 };
 
 export interface ArticleVideo {
@@ -173,6 +173,50 @@ export const SEED_ARTICLES: Article[] = [
     cover: IMG.newsroom,
     images: [IMG.newsroom, IMG.council],
   },
+  {
+  id: "a8",                              // 唯一标识符
+  title: "家的悄悄话",                       // 标题
+  category: "文化",                        // 如：时政/财经/文化等
+  author: "蛙蛙社全社成员",                        // 署名
+  role: "全",                           // 如：特约记者
+  time: "2026-09-06 15:00",                        // 如：今日 10:00
+  readCount: 20120602,                           // 阅读量
+  lede: "导语内容",                        // 概括性描述
+  body: [
+    "正文第一段",
+    "正文第二段",
+    "更多段落"
+  ],
+  cover: "pic/mmexport1788688097968.jpg",          // 封面图路径
+  images: ["pic/mmexport1788688097968.jpg"],        // 图集
+  video: {                                // 可选视频
+    kind: "file",
+    src: "pic/z.mp4",
+    name: "采访"
+  },
+},
+{
+  id: "a9",                              // 唯一标识符
+  title: "家的悄悄话(花絮)",                       // 标题
+  category: "文化",                        // 如：时政/财经/文化等
+  author: "蛙蛙社全社成员",                        // 署名
+  role: "全",                           // 如：特约记者
+  time: "2026-09-06 15:00",                        // 如：今日 10:00
+  readCount: 20120602,                           // 阅读量
+  lede: "家的悄悄话花絮",                        // 概括性描述
+  body: [
+    "正文第一段没有",
+    "正文第二段没有",
+    "更多段落也没有"
+  ],
+  cover: "pic/mmexport1788688097968.jpg",          // 封面图路径
+  images: ["pic/mmexport1788688097968.jpg"],        // 图集
+  video: {                                // 可选视频
+    kind: "file",
+    src: "pic/d.mp4",
+    name: "花絮"
+  },
+}
 ];
 
 export function formatRead(n: number): string {
