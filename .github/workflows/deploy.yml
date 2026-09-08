@@ -2,11 +2,13 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ master ]  # ⚠️ 确保这里是你实际的主分支名
+    branches: [ master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
@@ -15,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # 暂时保持 20，GitHub 会自动处理兼容性
+          node-version: '20'
           cache: 'npm'
       
       - name: Install dependencies
@@ -25,7 +27,7 @@ jobs:
         run: npm run build
       
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4  # ⚠️ 升级到 v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
