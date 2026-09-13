@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 
 export default defineConfig({
-  base: "./",
+  base: "/",
   plugins: [react(), tailwindcss(), viteSingleFile()],
   server: {
     host: "0.0.0.0",
